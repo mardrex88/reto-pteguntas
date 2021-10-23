@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+
+use App\Http\Controllers\PreguntaController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +19,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::resource('preguntas',PreguntaController::class);

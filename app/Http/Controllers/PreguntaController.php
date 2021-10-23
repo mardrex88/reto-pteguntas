@@ -22,7 +22,7 @@ class PreguntaController extends Controller
     {
         // Cargamos 25 preguntas para ser listadas en una vista html 
         $preguntas = Pregunta::paginate(25);
-        return view('welcome',compact('preguntas'));
+        return view('preguntas.index',compact('preguntas'));
     }
 
     /**
@@ -33,18 +33,22 @@ class PreguntaController extends Controller
     public function create()
     {
         //Cargamos las categorias 
-        $categorias = Categoria::get();
+        $categorias = Categoria::all();
+        //returnamos una vista y le pasamos las categorias
+        return view('preguntas.crear')->with('categorias',$categorias);
+
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Recibimos la informacion de la vista Crear en un Objeto de tipo Request
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        //Validamos que se reciban todos los campos necesarios para crear un registro en la base de datos de una pregunta
+        $request->validate([]);
     }
 
     /**
