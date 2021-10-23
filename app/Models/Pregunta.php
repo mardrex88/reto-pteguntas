@@ -25,8 +25,6 @@ class Pregunta extends Model
       */
      protected $fillable = [
          'nombre',
-         'nivel',  
-         'puntos',
          'categoria_id', 
          'created_at',
          'updated_at'
@@ -39,5 +37,13 @@ class Pregunta extends Model
     public function respuestas()
     {
         return $this->hasMany('App\Models\Respuesta');
+    }
+
+    /**
+     * Relacion del Modelo "Pregunta" con una "Categoria"
+     */
+    public function categoria()
+    {
+    	return $this->belongsTo('App\Models\Categoria');
     }
 }
