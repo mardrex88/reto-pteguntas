@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienvenido</title>
-</head>
-<body>
-<a href="{{ url('/preguntas') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Configurar Preguntas</a>
+@extends('layouts.app')
+
+@section('contenido')
+
 
 @if($errors->any())
         <div class="alert alert-dark alert-dismissible fade show" role="alert">
@@ -17,13 +11,14 @@
                 @endforeach
         </div>
     @endif
-<form action="{{ route('iniciar') }}" method="post">
+<form class="form-signin" action="{{ route('iniciar') }}" method="post">
 {{ csrf_field() }}
-<h3>Ingrese su Nombre</h6>
-<input type="text" name="nombre" id="nombre">
+<h1 class="h3 mb-3 font-weight-normal">Ingrese su Nombre</h1>
+<label for="nombre" class="sr-only">Nombre Jugador</label>
+<input type="text" class="form-control" name="nombre" id="nombre">
 <br>
-<button type="submit">Iniciar Juego</button>
-
+<button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar Juego</button>
+<p><a href="{{ url('/preguntas') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Ajustes</a></p>
 </form>
-</body>
-</html>
+@endsection
+

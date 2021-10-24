@@ -11,6 +11,12 @@ use App\Models\Categoria;
 
 class JuegoController extends Controller
 {
+
+    public function app()
+    {
+        return view('layouts.app');
+    }
+
       /**
      * Vista principal del Juego
      *
