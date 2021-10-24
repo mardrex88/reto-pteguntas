@@ -26,19 +26,10 @@ class Historico extends Model
         'nombre_jugador',
         'puntaje',  
         'nivel_alcanzado', 
-        'nivel_alcanzado',
         'juego_completado',
         'juego_abandonado',
         'created_at',
         'updated_at'
     ];
 
-
-    /**
-     * Relacion del Modelo "Historico" con una "Pregunta"
-     */
-    public function pregunta()
-    {
-    	return $this->belongsTo('App\Models\Pregunta');
-    }
 }

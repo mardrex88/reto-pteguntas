@@ -21,3 +21,5 @@ Route::get('/', function () {
 });
 
 Route::resource('preguntas',PreguntaController::class);
+
+Route::post('start', 'App\Http\Controllers\JuegoController@iniciarJuego')->name('iniciar');
