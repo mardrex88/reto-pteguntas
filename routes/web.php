@@ -19,4 +19,5 @@ use App\Http\Controllers\PreguntaController;
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::resource('preguntas',PreguntaController::class);

@@ -24,7 +24,7 @@ class Pregunta extends Model
       * @var array
       */
      protected $fillable = [
-         'nombre',
+         'pregunta',
          'categoria_id', 
          'created_at',
          'updated_at'
@@ -36,7 +36,7 @@ class Pregunta extends Model
      */
     public function respuestas()
     {
-        return $this->hasMany('App\Models\Respuesta');
+        return $this->hasMany('App\Models\Respuesta','pregunta_id','id');
     }
 
     /**
@@ -44,6 +44,6 @@ class Pregunta extends Model
      */
     public function categoria()
     {
-    	return $this->belongsTo('App\Models\Categoria');
+    	return $this->belongsTo('App\Models\Categoria','categoria_id','id');
     }
 }
