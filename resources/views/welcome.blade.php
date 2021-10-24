@@ -7,7 +7,7 @@
     <title>Bienvenido</title>
 </head>
 <body>
-<a href="{{ url('/preguntas') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Preguntas</a>
+<a href="{{ url('/preguntas') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Configurar Preguntas</a>
 
 @if($errors->any())
         <div class="alert alert-dark alert-dismissible fade show" role="alert">

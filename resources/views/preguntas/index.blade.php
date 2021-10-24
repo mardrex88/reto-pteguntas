@@ -7,7 +7,6 @@
     <title>Lista de Preguntas</title>
 </head>
 <body>
-    
 <section class="section">
         <div class="section-header">Usuarios</h3>
         </div>
@@ -16,8 +15,9 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <a class="btn btn-warning" href="{{ route('preguntas.create') }}">Nuevo</a>
-
+                            <a class="btn btn-warning" href="{{ route('home') }}"><<---Volver</a>
+                            <a class="btn btn-warning" href="{{ route('preguntas.create') }}">Nueva Pregunta</a>
+                            
                             <table class="table table-striped mt-2">
                                 <thead style="background-color:#6777ef;">
                                     <th style=" color:#fff">id</th>

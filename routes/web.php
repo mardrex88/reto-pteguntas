@@ -18,8 +18,14 @@ use App\Http\Controllers\PreguntaController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Route::resource('preguntas',PreguntaController::class);
 
 Route::post('start', 'App\Http\Controllers\JuegoController@iniciarJuego')->name('iniciar');
+Route::get('ronda/{id}', 'App\Http\Controllers\JuegoController@crearRonda')->name('crear.ronda'); 
+
+Route::post('responder', 'App\Http\Controllers\JuegoController@responder')->name('responder');
+
+
+Route::get('salir', 'App\Http\Controllers\JuegoController@salirJuego')->name('salir.juego'); 
