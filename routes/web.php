@@ -16,9 +16,7 @@ use App\Http\Controllers\PreguntaController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/','App\Http\Controllers\JuegoController@index')->name('home');
 
 Route::resource('preguntas',PreguntaController::class);
 

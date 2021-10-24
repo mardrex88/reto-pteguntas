@@ -11,6 +11,28 @@ use App\Models\Categoria;
 
 class JuegoController extends Controller
 {
+      /**
+     * Vista principal del Juego
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $mensaje;
+        //Verificamos si hay un juego en curso
+        if(empty($request->session()->get('juego_actual'))){
+            return view('welcome');
+        }else{
+            //Obtenemos la informacion del juego actual
+            $juego_actual = $request->session()->get('juego_actual');
+            $mensaje = "Hola ".$juego_actual->nombre_jugador;
+            //obtenemos la ronda actual del Juego en curso
+            $rondaActual = $juego_actual->nivel_alcanzado + 1;
+            //Returna la vista con la ronda correspondiente
+            return redirect()->route('crear.ronda',$rondaActual)->with('mensaje',$mensaje);
+        }
+        
+    }
 
      /**
      * Recibimos el nombre del Jugador para iniciar el Juego
@@ -24,8 +46,6 @@ class JuegoController extends Controller
             'nombre'=>'required'
         ]);
         $rondaActual = 0;
-        //Validamos si hay un Juego en Curso o si es un juego nuevo
-      if(empty($request->session()->get('juego_actual'))){
           //Creamos un registro nuevo de Historico
             $juego = Historico::create([
                 'nombre_jugador' => $request['nombre'],
@@ -37,12 +57,6 @@ class JuegoController extends Controller
             //Guardamos el Objeto Historico del juego actual en Variables de Session
             $juego_actual = $request->session()->put('juego_actual', $juego);
             $rondaActual = 1;
-        }else{
-            //Obtenemos la informacion del juego actual
-            $juego_actual = $request->session()->get('juego_actual');
-            $rondaActual = $juego_actual->nivel_alcanzado + 1;
-         
-        }
         
         //Returna la visca con la ronda correspondiente
         return redirect()->route('crear.ronda',$rondaActual);
@@ -113,6 +127,7 @@ class JuegoController extends Controller
             $nuevo_juego->update([
                 'juego_completado' => 1,
             ]);
+            $request->session()->forget('juego_actual');
             $mensaje = "Lo sentimos, la respuesta es incorrecta vuelve a intentar";  
         }
 
