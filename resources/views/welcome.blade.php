@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@section('titulo')
+Bienvenido a Cuanto sabes?
+@endsection
 @section('contenido')
 @include('layouts.nav')
 <form class="form-signin" action="{{ route('iniciar') }}" method="post">
@@ -11,12 +13,14 @@
     @endif
 
 {{ csrf_field() }}
+<h1 class="h2 mb-3 font-weight-normal">BIENVENIDO A CUANTO SABES?</h1>
+<br>
 <h1 class="h3 mb-3 font-weight-normal">Ingrese su Nombre</h1>
 <label for="nombre" class="sr-only">Nombre Jugador</label>
 <input type="text" class="form-control" name="nombre" id="nombre">
 <br>
 <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar Juego</button>
-<p><a href="{{ url('/preguntas') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Ajustes</a></p>
+
 </form>
 @endsection
 

@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@section('titulo')
+Fin del Juego
+@endsection
 @section('contenido')
 @include('layouts.nav')
 <div class="form-signin">

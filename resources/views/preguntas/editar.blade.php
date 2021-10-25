@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@section('titulo')
+Editar Pregunta
+@endsection
 @section('contenido')
 @include('layouts.nav')
 

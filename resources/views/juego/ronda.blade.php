@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@section('titulo')
+Ronda #{{$ronda}}
+@endsection
 @section('contenido')
 @include('layouts.nav')
 <form class="form-signin" action="{{ route('responder') }}" method="post">

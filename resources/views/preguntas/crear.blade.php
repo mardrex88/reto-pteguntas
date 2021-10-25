@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@section('titulo')
+Nueva Pregunta
+@endsection
 @section('contenido')
 @include('layouts.nav')
     @if($errors->any())
