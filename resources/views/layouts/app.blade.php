@@ -41,6 +41,7 @@
     <link href="{{ asset('bootstrap/assets/dist/css/estilos.css') }}" rel="stylesheet">
   </head>
   <body class="text-center">
+      
     @yield('contenido')
 
 

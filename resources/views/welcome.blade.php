@@ -1,17 +1,15 @@
 @extends('layouts.app')
 
 @section('contenido')
-
-
+@include('layouts.nav')
+<form class="form-signin" action="{{ route('iniciar') }}" method="post">
 @if($errors->any())
         <div class="alert alert-dark alert-dismissible fade show" role="alert">
-            <strong>¡Revise los campos</strong>
-                @foreach($errors->all() as $error)
-                    <span class="badge badge-danger">{{$error}}</span>
-                @endforeach
+            <strong>¡Revise los campos que esten correctos</strong>
+           
         </div>
     @endif
-<form class="form-signin" action="{{ route('iniciar') }}" method="post">
+
 {{ csrf_field() }}
 <h1 class="h3 mb-3 font-weight-normal">Ingrese su Nombre</h1>
 <label for="nombre" class="sr-only">Nombre Jugador</label>

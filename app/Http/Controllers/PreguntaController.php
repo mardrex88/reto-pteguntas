@@ -159,6 +159,7 @@ class PreguntaController extends Controller
             }
             
         }
+        $pregunta->update(['categoria_id' => $request['categoria']]);
        return redirect()->route('preguntas.index');
     }
 

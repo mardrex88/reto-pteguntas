@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>Historico de Juegos</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -24,7 +24,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="{{ url('/preguntas') }}">Configurar Preguntas</a>
-          <a class="dropdown-item" href="{{ route('historico')}}">Ver Historico</a>
+          <a class="dropdown-item" href="#">Ver Historico</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Ayuda</a>
         </div>
@@ -35,61 +35,43 @@
 
 <div class="container-fluid">
     <div class="row">
-    <a class="btn btn-info" href="{{ route('home') }}">Volver</a> 
-  |
-    <a class="btn btn-success" href="{{ route('preguntas.create') }}">Nueva Pregunta</a>
+<p><h1>Historico de Juegos</h1></p>
 </div>
   <table class="table">
     <thead class="thead-light">
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Pregunta</th>
-        <th scope="col">Respuesta Verdadera</th>
-        <th scope="col">Respuesta Falsa 1</th>
-        <th scope="col">Respuesta Falsa 2</th>
-        <th scope="col">Respuesta Falsa 3</th>
-        <th scope="col">Categoria</th>
-        <th scope="col">Acciones</th>
+        <th scope="col">Nombre Jugador</th>
+        <th scope="col">Puntaje </th>
+        <th scope="col">Nivel Alcanzado</th>
+        <th scope="col">Juego Completado</th>
+        <th scope="col">Abandono el Juego</th>
       </tr>
     </thead>
     <tbody>
-        @foreach($preguntas as $pregunta)
+        @foreach($historicos as $historico)
       <tr>
-        
-        <td>{{$pregunta->id}}</td>
-        <td>{{$pregunta->pregunta}}</td>
-        <td>   
-    @php
-    $pregunta->respuestaCorrecta;
-        foreach ($pregunta->respuestas as $respuesta) {
-            if($respuesta->es_correcta == 1){
-            $pregunta->respuestaCorrecta = $respuesta->respuesta;
-            unset($respuesta);
-            break;
-        }
-    }
-    @endphp
-    {{ $pregunta->respuestaCorrecta }}
-        </td>
-        @foreach($pregunta->respuestas as $respuestaF) 
-        @if($respuestaF->respuesta != $pregunta->respuestaCorrecta)
-            <td>{{ $respuestaF->respuesta}}</td>
-            @endif
-        @endforeach
-        <td>{{ $pregunta->categoria->nombre}}</td>
-        <td> 
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Opciones
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="{{ route('preguntas.edit', $pregunta->id ) }}">Editar</a>
-          <a class="dropdown-item" href="{{ route('preguntas.edit', $pregunta->id ) }}">Eliminar</a>
-        </div>
-        </td>
+      <td>{{ $historico->id}}</td>
+      <td>{{ $historico->nombre_jugador}}</td>
+      <td>{{ $historico->puntaje}}</td>
+      <td>{{ $historico->nivel_alcanzado}}</td>
+      <td>
+         @if($historico->juego_completado == 1) 
+            SI
+        @else
+            NO
+        @endif
+      </td>
+      <td>@if($historico->juego_abandonado == 1) 
+            SI
+        @else
+            NO
+        @endif</td>
       </tr>
       @endforeach
     </tbody>
   </table>
+  
 </div>
 
 </body>

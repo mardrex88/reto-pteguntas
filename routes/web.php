@@ -17,9 +17,10 @@ use App\Http\Controllers\PreguntaController;
 */
 
 Route::get('/','App\Http\Controllers\JuegoController@index')->name('home');
-Route::get('app','App\Http\Controllers\JuegoController@app')->name('app');
+
 
 Route::resource('preguntas',PreguntaController::class);
+Route::get('historico', 'App\Http\Controllers\JuegoController@historico')->name('historico'); 
 
 Route::post('start', 'App\Http\Controllers\JuegoController@iniciarJuego')->name('iniciar');
 Route::get('ronda/{id}', 'App\Http\Controllers\JuegoController@crearRonda')->name('crear.ronda'); 

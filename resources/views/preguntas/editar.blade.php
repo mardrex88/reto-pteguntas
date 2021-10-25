@@ -1,31 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Pregunta</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('contenido')
+@include('layouts.nav')
+
     @if($errors->any())
         <div class="alert alert-dark alert-dismissible fade show" role="alert">
-            <strong>¡Revise los campos</strong>
-                @foreach($errors->all() as $error)
-                    <span class="badge badge-danger">{{$error}}</span>
-                @endforeach
-                <button class="close" type="button" data-dismiss="alert" aria-label="Close"></button>
-                    <span aria-hidden="true">&times;</span>
-                </button>
+        <strong>¡Revise los campos que esten correctos</strong>
+               
         </div>
     @endif
 
-    <form action="{{ route('preguntas.update',$pregunta->id)}}" method="post">
+    <form action="{{ route('preguntas.update',$pregunta->id)}}" method="post" class="form-signin">
+    <h1 class="h3 mb-3 font-weight-normal">Editar Pregunta</h1>
     <input name="_method" type="hidden" value="PUT">
     {{ csrf_field() }}
         <label for="">Por favor ingrese la pregunta</label>
         <br>
         <input type="text" placeholder="Pregunta" name="pregunta" id="pregunta" value="{{ $pregunta->pregunta }}">
         <br>
+       
         <label for="">Ingrese la respuesta Correcta</label>
         <br>
         @php
@@ -39,8 +32,9 @@
             }
         }
         @endphp
-        <input type="text" placeholder="respuesta Verdadera" name="resp_verdadera" value="{{ $pregunta->respuestaCorrecta }}">
-       
+        
+        <input type="text" class="bg-success" placeholder="respuesta Verdadera" name="resp_verdadera" value="{{ $pregunta->respuestaCorrecta }}">
+
         @foreach($pregunta->respuestas as $respuestaF) 
             @if($respuestaF->respuesta != $pregunta->respuestaCorrecta)
             <br>
@@ -54,6 +48,7 @@
         @endforeach
         
         <br>
+        <br>
         <label for="categoria">Selecciona una Categoria:</label>
             <select name="categoria" id="cars">
             @foreach($categorias as $categoria)
@@ -64,7 +59,7 @@
                 >{{ $categoria->nombre}}</option>
             @endforeach
             </select>
-        <Button type="submit">Actualizar</Button>
+        <Button type="submit" class="btn btn-primary">Actualizar</Button>
     </form>
-</body>
-</html>
+
+    @endsection

@@ -1,15 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fin del Juego</title>
-</head>
-<body>
-    <div>
-        <p>{{ $mensaje }}</p>
-        <a href="{{ route('home') }}">Volver a Jugar</a>
+@extends('layouts.app')
+
+@section('contenido')
+@include('layouts.nav')
+<div class="form-signin">
+        <p>
+        <h3 class="h6 mb-3 font-weight-normal">
+        Felicidades {{ $juego_actual->nombre_jugador }}, Completaste el Juego hasta el ultimo Nivel  
+        
+        Nivel {{ $juego_actual->nivel_alcanzado  }} Puntos Logrados {{ $juego_actual->puntaje}}</h3>    
+
+        </p>
+        <a href="{{ route('home') }}" class="btn btn-primary">Volver a Jugar</a>
     </div>
-</body>
-</html>
+
+@endsection

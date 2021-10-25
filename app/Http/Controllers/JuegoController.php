@@ -12,11 +12,7 @@ use App\Models\Categoria;
 class JuegoController extends Controller
 {
 
-    public function app()
-    {
-        return view('layouts.app');
-    }
-
+    private $mensaje;
       /**
      * Vista principal del Juego
      *
@@ -24,18 +20,18 @@ class JuegoController extends Controller
      */
     public function index(Request $request)
     {
-        $mensaje;
+        
         //Verificamos si hay un juego en curso
         if(empty($request->session()->get('juego_actual'))){
             return view('welcome');
         }else{
             //Obtenemos la informacion del juego actual
             $juego_actual = $request->session()->get('juego_actual');
-            $mensaje = "Hola ".$juego_actual->nombre_jugador;
+                  
             //obtenemos la ronda actual del Juego en curso
             $rondaActual = $juego_actual->nivel_alcanzado + 1;
             //Returna la vista con la ronda correspondiente
-            return redirect()->route('crear.ronda',$rondaActual)->with('mensaje',$mensaje);
+            return redirect()->route('crear.ronda',$rondaActual);
         }
         
     }
@@ -51,6 +47,7 @@ class JuegoController extends Controller
         $request->validate([
             'nombre'=>'required'
         ]);
+        $this->mensaje="Comencemos";
         $rondaActual = 0;
           //Creamos un registro nuevo de Historico
             $juego = Historico::create([
@@ -68,20 +65,28 @@ class JuegoController extends Controller
         return redirect()->route('crear.ronda',$rondaActual);
         
     }
-    
+    /**
+    *
+     * @return \Illuminate\Http\Response
+     */
     //Se crea la ronda para ser mostrava al usuario
     public function crearRonda(Request $request,$id)
     {
+        $juego_actual;
+        if(!empty($request->session()->get('juego_actual'))){
+            $juego_actual = $request->session()->get('juego_actual');
+           
+        }
         //Obtenemos una pregunta aleatoria correspondiente al nivel de la ronda
         $pregunta = $this->getPreguntaAleatoria($id);
         //enviamos la pregunta a la vista 
-        return view('juego.ronda')->with('pregunta',$pregunta)->with('ronda',$id);
+        return view('juego.ronda')->with('pregunta',$pregunta)->with('ronda',$id)->with('juego_actual',$juego_actual);
     }  
 
     public function responder(Request $request)
     {
 
-        $mensaje="";
+        $this->mensaje="";
         //Valida que el usuario si selecciones una respuesta
         $request->validate([
             'respuesta'=>'required'
@@ -109,9 +114,9 @@ class JuegoController extends Controller
             $request->session()->put('juego_actual', $nuevo_juego);
          
             //Validamos si aun hay rondas por jugar
-          if($nuevo_juego->nivel_alcanzado+1 < 5){
+          if($nuevo_juego->nivel_alcanzado+1 < 6){
             //returna la siguiente Ronda
-            $mensaje = "La respuesta es Correcta"; 
+            $this->mensaje = "La respuesta es Correcta"; 
             return redirect()->route('crear.ronda',$nuevo_juego->nivel_alcanzado+1);
           } else{
            //Finalizamos el Juego Con el Ultimo nivel completado
@@ -121,8 +126,8 @@ class JuegoController extends Controller
             //Eliminamos el Juego en Curso
             
             $request->session()->forget('juego_actual');
-            $mensaje = "Felicidades Terminaste con el Puntaje perfecto"; 
-            return view('juego.final')->with('mensaje',$mensaje);
+            $this->mensaje = "Felicidades Terminaste con el Puntaje perfecto"; 
+            return view('juego.final')->with('juego_actual',$nuevo_juego);
           }
             
         }else{
@@ -134,14 +139,22 @@ class JuegoController extends Controller
                 'juego_completado' => 1,
             ]);
             $request->session()->forget('juego_actual');
-            $mensaje = "Lo sentimos, la respuesta es incorrecta vuelve a intentar";  
+            $this->mensaje = "Lo sentimos, la respuesta es incorrecta vuelve a intentar";  
         }
 
-        return view('juego.final')->with('mensaje',$mensaje);
+        return view('juego.final')->with('mensaje',$this->mensaje);
     }
 
     public function salirJuego(Request $request)
     {
+        //Obtenemos la Informacio del Juego en Curso
+        $juego_actual = $request->session()->get('juego_actual');
+        //Cargamos el registroo historico para actualizarlo
+        $nuevo_juego = Historico::where('id',$juego_actual->id)->first();
+        //Actualizamos el regstro historico indicando que se a retirado del juego
+        $nuevo_juego->update([
+            'juego_abandonado' => 1,
+        ]);
         //Eliminamos el Juego en Curso
         $request->session()->forget('juego_actual');
         return redirect()->route('home');
@@ -152,9 +165,18 @@ class JuegoController extends Controller
     public function getPreguntaAleatoria($id)
     {
         //Carga todas las preguntas pertenecientes a la categoria o Nivel actual del juego
-        $preguntas = Pregunta::where('categoria_id',$id)->with('respuestas')->get();
+        $preguntas = Pregunta::where('categoria_id',$id)->with('respuestas')->with('categoria')->get();
         //Retorna una Pregunta Aleatoriamente
         return $preguntas[array_rand($preguntas->toArray())];
+    }
+
+    //retorna una vista con los registros de historico 
+    public function historico()
+    {
+        //Carga todas las preguntas pertenecientes a la categoria o Nivel actual del juego
+        $historicos = Historico::orderBy('puntaje', 'desc')->get();
+        //Retorna una Pregunta Aleatoriamente
+        return view('juego.historico')->with('historicos',$historicos);
     }
 
 }
